@@ -13,6 +13,27 @@ Device Fingerprint, it takes as input pcaps and tests each packets against 23 fe
     IP address (1)                          Destination IP counter (int)
     Port class (2)                          Source (int) / Destination (int)
 
+## Guide
+We list the structure of this repo as follows:
+```latex
+.
+├── [4.0K]  captures_IoT_Sentinel/      % pcap files
+|   └── [4.0K]  captures_IoT-Sentinal/  % pcap files
+│       ├── [ 13K]  Aria/
+│           ├── [17]    _iotdevice-mac.txt
+│           ├── [8.4K]  Setup-A-1-STA.pcap
+│           ├── ...
+│           └── [8.2K]  Setup-C-15-STA.pcap
+|   └── [4.0K]  dpkt/                   % modules
+│       ├── [ 1.2K]  ah.py
+│       ├── ...
+│       └── [1.6K]  yahoo.py
+├── [1.6K]  iot_sentinel_paper.pdf      % Science Paper
+├── [1.6K]  environment.yml             % environment yaml setup file
+├── [8.9K]  iot_fingerprint.py          % start file
+└── [2.0K]  README.md                   % README file
+```
+
 
 ### Dependencies
 
