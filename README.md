@@ -14,9 +14,23 @@ Device Fingerprint, it takes as input pcaps and tests each packets against 23 fe
     Port class (2)                          Source (int) / Destination (int)
 
 
+### Dependencies
+
+- python==2
+- pandas
+
+
+### Environment Setup
+```bash
+conda create -n <ENV_NAME> python=2
+conda activate <ENV_NAME>
+pip install --upgrade pip
+pip install pandas
+```
+
 
 Usage:  
 ```
-iot_fingerprint.py -d <inputdir> [or] -i <inputpcap> -l <label> [and] -o <outputdir>  
-Example: ./iot-fingerprint.py -d captures_IoT_Sentinel/captures_IoT-Sentinel/ -o csv_result_full/
+python iot_fingerprint.py -d <inputdir> [or] -i <inputpcap> -l <label> [and] -o <outputdir>  
+Example: python iot_fingerprint.py -d captures_IoT_Sentinel/captures_IoT-Sentinel/ -o csv_result_full/
 ```
