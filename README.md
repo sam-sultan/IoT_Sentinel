@@ -16,21 +16,21 @@ Device Fingerprint, it takes as input pcaps and tests each packets against 23 fe
 
 ### Dependencies
 
-- python==2
-- pandas
+- enviornment.yml (dependencies are listed inside the environment file)
 
 
 ### Environment Setup
 ```bash
-conda create -n <ENV_NAME> python=2
-conda activate <ENV_NAME>
-pip install --upgrade pip
-pip install pandas
+conda env create --file environment.yml
 ```
 
+* A new conda environment will be created, it will be called iotpy2
 
-Usage:  
-```
+
+### Usage  
+```bash
+conda activate iotpy2
+
 python iot_fingerprint.py -d <inputdir> [or] -i <inputpcap> -l <label> [and] -o <outputdir>  
 Example: python iot_fingerprint.py -d captures_IoT_Sentinel/captures_IoT-Sentinel/ -o csv_result_full/
 ```
