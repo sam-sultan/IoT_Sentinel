@@ -99,6 +99,30 @@ def parse_pcap(outputdir,capture,device_label,id_pcap):
     f = open(capture)
     pcap = dpkt.pcap.Reader(f)
 
+    headers_name=['ARP','LLC',
+                    'EAPOL','Pck_size',
+                    'Pck_rawdata','IP_padding',
+                    'IP_ralert','IP_add_count',
+                    'Portcl_src','Portcl_dst',
+                    'ICMP','ICMP6',
+                    'TCP','UDP',
+                    'HTTPS','HTTP',
+                    'DHCP','BOOTP',
+                    'SSDP','DNS',
+                    'MDNS','NTP',
+                    "IP", 'Label'] 
+
+
+    #Create dir for CSVs
+    create_outputdir(outputdir,device_label)
+
+    #Create CSV
+    csv_file=outputdir+device_label+'/file_'+device_label+'_'+str(id_pcap)+'.csv'
+
+    df2= pandas.DataFrame(data=[],columns=headers_name)
+    df2.to_csv(csv_file)
+    
+
 
     for ts, buf in pcap:
 
@@ -162,7 +186,7 @@ def parse_pcap(outputdir,capture,device_label,id_pcap):
 
             tcp = ip.data
             udp = ip.data
-            
+
         #Network Layer ICMP-ICMP6     
             if type(ip.data) == dpkt.icmp.ICMP:
                 L3_icmp = 1
@@ -218,17 +242,30 @@ def parse_pcap(outputdir,capture,device_label,id_pcap):
     #Create the array containing the 23 features
 
         #Dataframe to be pushed into csvpck_size
-        ar2={'ARP':[L2_arp],'LLC':[L2_llc],'EAPOL':[L3_eapol],'Pck_size':[pck_size],'Pck_rawdata':[pck_rawdata],'IP_padding':[ip_padding],'IP_ralert':[ip_ralert],'IP_add_count':[L3_ip_dst_counter],'Portcl_src':[port_class_src],'Portcl_dst':[port_class_dst],'ICMP':[L3_icmp],'ICMP6':[L3_icmp6],'TCP':[L4_tcp],'UDP':[L4_udp],'HTTPS':[L7_https],'HTTP':[L7_http],'DHCP':[L7_dhcp],'BOOTP':[L7_bootp],'SSDP':[L7_ssdp],'DNS':[L7_dns],'MDNS':[L7_mdns],'NTP':[L7_ntp],'Label':[device_label]}
-        headers_name=['ARP','LLC','EAPOL','Pck_size','Pck_rawdata','IP_padding','IP_ralert','IP_add_count','Portcl_src','Portcl_dst','ICMP','ICMP6','TCP','UDP','HTTPS','HTTP','DHCP','BOOTP','SSDP','DNS','MDNS','NTP','Label'] 
-        df2= pandas.DataFrame(data=ar2,columns=headers_name)
+        ar2={'ARP':[L2_arp],'LLC':[L2_llc],
+            'EAPOL':[L3_eapol],'Pck_size':[pck_size],
+            'Pck_rawdata':[pck_rawdata],'IP_padding':[ip_padding],
+            'IP_ralert':[ip_ralert],'IP_add_count':[L3_ip_dst_counter],
+            'Portcl_src':[port_class_src],'Portcl_dst':[port_class_dst],
+            'ICMP':[L3_icmp],'ICMP6':[L3_icmp6],
+            'TCP':[L4_tcp],'UDP':[L4_udp],
+            'HTTPS':[L7_https],'HTTP':[L7_http],
+            'DHCP':[L7_dhcp],'BOOTP':[L7_bootp],
+            'SSDP':[L7_ssdp],'DNS':[L7_dns],
+            'MDNS':[L7_mdns],'NTP':[L7_ntp],
+            'IP': L3_ip, 'Label':[device_label]}
+        
+        df2 = pandas.DataFrame(data=ar2,columns=headers_name)
 
-        #Create dir for CSVs
-        create_outputdir(outputdir,device_label)
-
-        #Create CSV
-        csv_file=outputdir+device_label+'/file_'+device_label+'_'+str(id_pcap)+'.csv'
+        """
+        print ( len(df2.columns) )
+        for c in df2.columns:
+            print (c)
+        print (df2)
+        exit()
+        """
     
-        df2.to_csv(csv_file, sep='\t', encoding='utf-8',mode='a', header=False)
+        df2.to_csv(csv_file, mode='a', header=False) #, sep='\t', encoding='utf-8'
 
         #Display features per packet
         print (ar2)
